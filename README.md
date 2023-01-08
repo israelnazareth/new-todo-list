@@ -1,6 +1,6 @@
 # :clipboard: ToDo List App
 
-### Projeto criado na <strong>Trilha Ignite</strong> da <strong>[Rocketseat](https://www.rocketseat.com.br/)</strong> onde foi desenvolvida uma aplicação web onde podemos gerenciar tarefas do dia-a-dia.
+### Este é um projeto criado na <strong>Trilha Ignite</strong> da <strong>[Rocketseat](https://www.rocketseat.com.br/)</strong> onde foi desenvolvida uma aplicação web de gerenciamento de tarefas do dia-a-dia.
 <br>
 
 ![capa](https://user-images.githubusercontent.com/85763987/211219736-4cf4c141-40d4-4609-ae9a-3099f7df0948.png)
