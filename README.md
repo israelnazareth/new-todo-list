@@ -3,14 +3,14 @@
 ### Projeto criado na <strong>Trilha Ignite</strong> da <strong>[Rocketseat](https://www.rocketseat.com.br/)</strong> onde foi desenvolvida uma aplicação web onde podemos gerenciar tarefas do dia-a-dia.
 <br>
 
-<img src="./src/assets/capa.png" alt="ToDo List cover">
+![capa](https://user-images.githubusercontent.com/85763987/211219736-4cf4c141-40d4-4609-ae9a-3099f7df0948.png)
 
 <hr>
 
 <p align="center">
   <a href="#-tecnologias-utilizadas">Tecnologias</a> -
   <a href="#-resultado-aplicação-web">Resultado WEB</a> -
-  <a href="#-resultado-aplicação-mobile">Resultado MOBILE</a> -
+  <a href="#-resultado-aplicação-mobile">Resultado Responsivo</a> -
   <a href="#-como-executar">Como executar</a> -
   <a href="#-contato">Contato</a>
 </p>
@@ -41,32 +41,31 @@
 
 ## :computer: Resultado Aplicação WEB
 
-<img src="./files/desk1.jpg" alt="Versão Web">
+<img src="https://user-images.githubusercontent.com/85763987/211219785-4d2398a1-afe9-4134-86c6-bf3e3335df1d.png" alt="Versão Web">
 <hr>
-<img src="./files/desk2.jpg" alt="Versão Web">
+
+<img src="https://user-images.githubusercontent.com/85763987/211219787-010e7e69-69c5-4875-b1e2-805afaf0bf0b.png" alt="Versão Web">
 <hr>
 
 <a id="-resultado-aplicação-mobile"></a>
 
-## :iphone: Resultado Aplicação Mobile
+## :iphone: Resultado Responsivo
 
 <p align="center">
-<img src="./files/0.png"
-height=300
+<img src="https://user-images.githubusercontent.com/85763987/211220110-5ef2823b-59eb-4b50-a8c5-6cd8278f4045.png"
+height=800
 alt="Versão Mobile">
-<img src="./files/1.png"
-height=300
+<img src="https://user-images.githubusercontent.com/85763987/211220111-535d1cd8-dd08-46fc-8c66-e25411edbaef.png"
+height=800
 alt="Versão Mobile">
 
 <a id="-como-executar"></a>
 
 ## :white_check_mark: Como executar
 
-Para executar a aplicação, seguir os procedimentos abaixo:
+Para executar a aplicação siga os procedimentos abaixo:
 
--   WEB;
-
-### - Iniciando aplicação WEB -
+### - Iniciando a aplicação -
 
 -   Faça o clone da aplicação:
 
@@ -74,13 +73,13 @@ Para executar a aplicação, seguir os procedimentos abaixo:
 git clone git@github.com:israelnazareth/new-todo-list.git
 ```
 
--   Acessar o diretório com o comando:
+-   Acesse o diretório com o comando:
 
 ```bash
 cd new-todo-list
 ```
 
--   Instalar as dependências:
+-   Instale as dependências:
 
 ```bash
 npm install
@@ -90,7 +89,7 @@ ou
 yarn
 ```
 
--   Iniciar a aplicação com o comando:
+-   Inicie a aplicação com o comando:
 
 ```bash
 npm run dev
