@@ -15,18 +15,18 @@ export default function Tasks() {
   const localTasks = JSON.parse(localStorage.getItem('tasks')!);
   if (!localTasks) localStorage.setItem('tasks', JSON.stringify(tasks));
 
-  function handleCreateNewTask(event: React.FormEvent<HTMLInputElement>) {
+  function handleNewTaskChange(event: React.FormEvent<HTMLInputElement>) {
     event.preventDefault();
 
     setNewTask(event.currentTarget.value);
   }
 
-  function handleAddNewTask(event: React.FormEvent<HTMLButtonElement>) {
+  function handleCreateNewTask(event: React.FormEvent<HTMLButtonElement>) {
     event?.preventDefault();
 
     const newTaskObject = {
       id: new Date().getTime(),
-      title: newTask,
+      title: newTask.trim(),
       completed: false,
     }
 
@@ -68,6 +68,8 @@ export default function Tasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks])
 
+  const isTaskEmpty = newTask.trim() === '';
+
   return (
     <>
       <form className={styles.form}>
@@ -77,13 +79,13 @@ export default function Tasks() {
             className={styles.input}
             type="text"
             placeholder="Adicione uma nova tarefa"
-            onChange={handleCreateNewTask}
+            onChange={handleNewTaskChange}
           />
           <button
             className={styles.button}
             type='submit'
-            onClick={handleAddNewTask}
-            disabled={newTask === ''}
+            onClick={handleCreateNewTask}
+            disabled={isTaskEmpty}
           >
             Criar
             <PlusCircle size={20} />
