@@ -12,6 +12,8 @@ export default function Tasks() {
   const [newTask, setNewTask] = useState('');
   const [tasks, setTasks] = useState(Array<ITasks>);
 
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+
   function handleCreateNewTask(event: React.FormEvent<HTMLInputElement>) {
     event.preventDefault();
 
