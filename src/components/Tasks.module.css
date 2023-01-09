@@ -111,6 +111,12 @@
   align-items: center;
   width: 100%;
   padding: 1rem;
+}
+
+.task label {
+  display: flex;
+  width: 100%;
+  cursor: pointer;
   gap: 1rem;
 }
 
@@ -141,6 +147,7 @@
   border-radius: 1rem;
 
   display: grid;
+  align-self: center;
   place-content: center;
 }
 

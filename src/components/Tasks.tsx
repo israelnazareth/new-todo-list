@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ClipboardText, PlusCircle, Trash } from 'phosphor-react';
 import styles from './Tasks.module.css';
 
@@ -56,6 +56,15 @@ export default function Tasks() {
     setTasks(newTasks);
   }
 
+  useEffect(() => {
+    const localTasks = JSON.parse(localStorage.getItem('tasks')!);
+    if (localTasks.length > 0) setTasks(localTasks);
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks])
+
   return (
     <>
       <form className={styles.form}>
@@ -95,13 +104,15 @@ export default function Tasks() {
           {tasks.length !== 0 ? tasks.map(task => (
             <div key={task.id} className={styles.taskContent}>
               <div className={styles.task}>
-                <input
-                  id={task.id.toString()}
-                  type="checkbox"
-                  defaultChecked={task.completed}
-                  onChange={handleCheckTask}
-                />
-                <span className={styles.taskTitle}>{task.title}</span>
+                <label htmlFor={task.id.toString()}>
+                  <input
+                    id={task.id.toString()}
+                    type="checkbox"
+                    defaultChecked={task.completed}
+                    onChange={handleCheckTask}
+                  />
+                  <span className={styles.taskTitle}>{task.title}</span>
+                </label>
               </div>
               <Trash
                 id={task.id.toString()}
