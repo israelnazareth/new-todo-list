@@ -12,8 +12,6 @@ export default function Tasks() {
   const [newTask, setNewTask] = useState('');
   const [tasks, setTasks] = useState(Array<ITasks>);
 
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-
   function handleCreateNewTask(event: React.FormEvent<HTMLInputElement>) {
     event.preventDefault();
 
@@ -60,6 +58,7 @@ export default function Tasks() {
 
   useEffect(() => {
     const localTasks = JSON.parse(localStorage.getItem('tasks')!);
+    if (!localTasks) localStorage.setItem('tasks', JSON.stringify(tasks));
     if (localTasks.length > 0) setTasks(localTasks);
   }, [])
 
