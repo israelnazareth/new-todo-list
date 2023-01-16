@@ -92,6 +92,10 @@
   margin-top: 1rem;
 }
 
+.taskList:last-child {
+  margin-bottom: 1rem;
+}
+
 .taskContent {
   display: flex;
   justify-content: center;
