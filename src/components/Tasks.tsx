@@ -119,12 +119,13 @@ export default function Tasks() {
                   <span className={styles.taskTitle}>{task.title}</span>
                 </label>
               </div>
-              <Trash
-                id={task.id.toString()}
-                size={20}
-                className={styles.trash}
-                onClick={handleDeleteTask}
-              />
+              <div className={styles.trash}>
+                <Trash
+                  id={task.id.toString()}
+                  size={20}
+                  onClick={handleDeleteTask}
+                />
+              </div>
             </div>
           )) :
             <div className={styles.emptyContent}>
