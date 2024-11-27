@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ClipboardText, PlusCircle, Trash } from 'phosphor-react';
 import styles from './Tasks.module.css';
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
 interface ITasks {
   id: number;
@@ -9,11 +10,11 @@ interface ITasks {
 }
 
 export default function Tasks() {
-  const [newTask, setNewTask] = useState('');
+  const [newTask, setNewTask] = useState("");
   const [tasks, setTasks] = useState(Array<ITasks>);
 
-  const localTasks = JSON.parse(localStorage.getItem('tasks')!);
-  if (!localTasks) localStorage.setItem('tasks', JSON.stringify(tasks));
+  const localTasks = JSON.parse(localStorage.getItem("tasks")!);
+  if (!localTasks) localStorage.setItem("tasks", JSON.stringify(tasks));
 
   function handleNewTaskChange(event: React.FormEvent<HTMLInputElement>) {
     event.preventDefault();
@@ -28,16 +29,16 @@ export default function Tasks() {
       id: new Date().getTime(),
       title: newTask.trim(),
       completed: false,
-    }
+    };
 
     setTasks([...tasks, newTaskObject]);
-    setNewTask('');
+    setNewTask("");
   }
 
   function handleCheckTask(event: React.FormEvent<HTMLInputElement>) {
     const { checked } = event.currentTarget;
 
-    const newTasks = tasks.map(task => {
+    const newTasks = tasks.map((task) => {
       if (task.id === Number(event.currentTarget.id)) {
         task.completed = checked;
       }
@@ -48,27 +49,37 @@ export default function Tasks() {
   }
 
   function getConcluedTasks() {
-    return tasks.filter(task => task.completed).length;
+    return tasks.filter((task) => task.completed).length;
   }
 
   function handleDeleteTask(event: React.FormEvent) {
-    const newTasks = tasks.filter(task => {
-      return task.id !== Number(event.currentTarget.id)
+    const newTasks = tasks.filter((task) => {
+      return task.id !== Number(event.currentTarget.id);
     });
 
     setTasks(newTasks);
   }
 
   useEffect(() => {
-    const localTasks = JSON.parse(localStorage.getItem('tasks')!);
+    const localTasks = JSON.parse(localStorage.getItem("tasks")!);
     if (localTasks.length > 0) setTasks(localTasks);
-  }, [])
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks])
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
-  const isTaskEmpty = newTask.trim() === '';
+  const isTaskEmpty = newTask.trim() === "";
+
+  const onDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const items = Array.from(tasks);
+    const [reorderedItem] = items.splice(result.source.index, 1);
+    items.splice(result.destination.index, 0, reorderedItem);
+
+    setTasks(items);
+  };
 
   return (
     <>
@@ -83,7 +94,7 @@ export default function Tasks() {
           />
           <button
             className={styles.button}
-            type='submit'
+            type="submit"
             onClick={handleCreateNewTask}
             disabled={isTaskEmpty}
           >
@@ -101,41 +112,77 @@ export default function Tasks() {
           <span className={styles.infoCompleted}>
             Concluídas
             <span className={styles.infoNumbers}>
-              {tasks.length === 0 ? '0' : `${getConcluedTasks()} de ${tasks.length}`}
+              {tasks.length === 0
+                ? "0"
+                : `${getConcluedTasks()} de ${tasks.length}`}
             </span>
           </span>
         </div>
-        <div className={styles.taskList}>
-          {tasks.length !== 0 ? tasks.map(task => (
-            <div key={task.id} className={styles.taskContent}>
-              <div className={styles.task}>
-                <label htmlFor={task.id.toString()}>
-                  <input
-                    id={task.id.toString()}
-                    type="checkbox"
-                    defaultChecked={task.completed}
-                    onChange={handleCheckTask}
-                  />
-                  <span className={styles.taskTitle}>{task.title}</span>
-                </label>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="tasks" type="list" direction="vertical">
+            {(provided) => (
+              <div
+                className={styles.taskList}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
+                {tasks.length !== 0 ? (
+                  tasks.map((task, index) => (
+                    <Draggable
+                      key={task.id}
+                      draggableId={task.id.toString()}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          key={task.id}
+                          className={styles.taskContent}
+                          id={task.id.toString()}
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                        >
+                          <div className={styles.task}>
+                            <label htmlFor={task.id.toString()}>
+                              <input
+                                id={task.id.toString()}
+                                type="checkbox"
+                                defaultChecked={task.completed}
+                                onChange={handleCheckTask}
+                              />
+                              <span className={styles.taskTitle}>
+                                {task.title}
+                              </span>
+                            </label>
+                          </div>
+                          <div className={styles.trash}>
+                            <Trash
+                              id={task.id.toString()}
+                              size={20}
+                              onClick={handleDeleteTask}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))
+                ) : (
+                  <div className={styles.emptyContent}>
+                    <ClipboardText size={72} className={styles.emptyImage} />
+                    <p className={styles.parag1}>
+                      Você ainda não tem tarefas cadastradas
+                    </p>
+                    <p className={styles.parag2}>
+                      Crie tarefas e organize seus itens a fazer
+                    </p>
+                  </div>
+                )}
+                {provided.placeholder}
               </div>
-              <div className={styles.trash}>
-                <Trash
-                  id={task.id.toString()}
-                  size={20}
-                  onClick={handleDeleteTask}
-                />
-              </div>
-            </div>
-          )) :
-            <div className={styles.emptyContent}>
-              <ClipboardText size={72} className={styles.emptyImage} />
-              <p className={styles.parag1}>Você ainda não tem tarefas cadastradas</p>
-              <p className={styles.parag2}>Crie tarefas e organize seus itens a fazer</p>
-            </div>
-          }
-        </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </main>
     </>
-  )
+  );
 }
