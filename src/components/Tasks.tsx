@@ -45,16 +45,22 @@ export default function Tasks() {
       return task;
     });
 
-    setTasks(newTasks);
+    const orderedTasks = newTasks.sort((a, b) => {
+      if (a.completed && !b.completed) return 1;
+      if (!a.completed && b.completed) return -1;
+      return 0;
+    });
+
+    setTasks(orderedTasks);
   }
 
   function getConcluedTasks() {
     return tasks.filter((task) => task.completed).length;
   }
 
-  function handleDeleteTask(event: React.FormEvent) {
+  function handleDeleteTask(taskId: number) {
     const newTasks = tasks.filter((task) => {
-      return task.id !== Number(event.currentTarget.id);
+      return task.id !== Number(taskId);
     });
 
     setTasks(newTasks);
@@ -74,11 +80,11 @@ export default function Tasks() {
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
 
-    const items = Array.from(tasks);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
+    const tasksCopy = Array.from(tasks);
+    const [reorderedTask] = tasksCopy.splice(result.source.index, 1);
+    tasksCopy.splice(result.destination.index, 0, reorderedTask);
 
-    setTasks(items);
+    setTasks(tasksCopy);
   };
 
   return (
@@ -137,7 +143,6 @@ export default function Tasks() {
                         <div
                           key={task.id}
                           className={styles.taskContent}
-                          id={task.id.toString()}
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
@@ -155,13 +160,13 @@ export default function Tasks() {
                               </span>
                             </label>
                           </div>
-                          <div className={styles.trash}>
-                            <Trash
-                              id={task.id.toString()}
-                              size={20}
-                              onClick={handleDeleteTask}
-                            />
-                          </div>
+                          <button
+                            type="button"
+                            className={styles.trash}
+                            onClick={() => handleDeleteTask(task.id)}
+                          >
+                            <Trash id={task.id.toString()} size={20} />
+                          </button>
                         </div>
                       )}
                     </Draggable>
